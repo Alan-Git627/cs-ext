@@ -29,36 +29,8 @@ async function sendToRuntime(message) {
 
 async function sendToTab(tabId, message) {
   return new Promise((resolve) => {
-    chrome.tabs.sendMessage(tabId, message, (response) => {
-      if (chrome.runtime.lastError) {
-        resolve({
-          ok: false,
-          transportError: chrome.runtime.lastError.message || 'Failed to message tab.'
-        });
-        return;
-      }
-      resolve(response);
-    });
+    chrome.tabs.sendMessage(tabId, message, resolve);
   });
-}
-
-async function ensureContentScript(tabId) {
-  const ping = await sendToTab(tabId, { type: 'SCRAPE_MARKET_ITEMS' });
-  if (ping?.ok || !ping?.transportError) {
-    return ping;
-  }
-
-  await new Promise((resolve) => {
-    chrome.scripting.executeScript(
-      {
-        target: { tabId },
-        files: ['contentScript.js']
-      },
-      () => resolve()
-    );
-  });
-
-  return sendToTab(tabId, { type: 'SCRAPE_MARKET_ITEMS' });
 }
 
 function renderRows(items) {
@@ -107,10 +79,9 @@ async function refresh() {
     return;
   }
 
-  const scrapeResponse = await ensureContentScript(activeTabResponse.tabId);
+  const scrapeResponse = await sendToTab(activeTabResponse.tabId, { type: 'SCRAPE_MARKET_ITEMS' });
   if (!scrapeResponse?.ok) {
-    statusEl.textContent =
-      scrapeResponse?.transportError || 'Unable to scrape items from this page.';
+    statusEl.textContent = 'Unable to scrape items from this page.';
     renderRows([]);
     return;
   }

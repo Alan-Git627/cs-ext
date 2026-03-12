@@ -24,4 +24,3 @@ Compares listings on **Skinport** and **CS.MONEY** against Steam Market instant-
 
 - Steam does not expose a float-specific instant-buy endpoint. The extension compares by item market hash name and still displays float from the source marketplace when available.
 - If a site changes their HTML structure, selector tuning in `contentScript.js` may be needed.
-- The extension now includes subdomain match patterns (for example `www.skinport.com` and `app.cs.money`) and a fallback runtime injection path if the content script is not yet attached.
