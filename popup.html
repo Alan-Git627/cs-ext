@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CS Market Discount Finder</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>CS Market Discount Finder</h1>
+      <p class="subtext">Compare Skinport / CS.MONEY listings against Steam instant buy prices.</p>
+
+      <section class="controls">
+        <label for="minimumDiscount">Minimum discount (%)</label>
+        <div class="control-row">
+          <input type="number" id="minimumDiscount" min="-100" max="100" step="0.1" value="0" />
+          <button id="refreshButton">Refresh</button>
+        </div>
+      </section>
+
+      <section>
+        <p id="status" class="status">Open Skinport or CS.MONEY and click Refresh.</p>
+      </section>
+
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Float</th>
+              <th>Market</th>
+              <th>Steam</th>
+              <th>Discount</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </section>
+    </main>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

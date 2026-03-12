@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "CS Market Discount Finder",
+  "description": "Scrape Skinport/CS.MONEY listings and compare prices against Steam instant buy prices.",
+  "version": "0.1.0",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://skinport.com/*",
+    "https://cs.money/*",
+    "https://steamcommunity.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CS Market Discount Finder"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://skinport.com/*",
+        "https://cs.money/*"
+      ],
+      "js": ["contentScript.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
